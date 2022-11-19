@@ -34,7 +34,7 @@ type application struct {
 	version       string
 }
 
-func (app *application) server() error {
+func (app *application) serve() error {
 	srv := &http.Server{
 		Addr:              fmt.Sprintf(":%d", app.config.port),
 		Handler:           app.routes(),
@@ -57,7 +57,7 @@ func main() {
 	flag.Parse()
 
 	cfg.stripe.key = os.Getenv("STRIPE_KEY")
-	cfg.stripe.secret = os.Getenv("STRIPE_KEY")
+	cfg.stripe.secret = os.Getenv("STRIPE_SECRET")
 
 	infoLog := log.New(os.Stdout, "INFO\t", log.Ldate|log.Ltime)
 	errorLog := log.New(os.Stdout, "ERROR\t", log.Ldate|log.Ltime|log.Lshortfile)
@@ -72,7 +72,7 @@ func main() {
 		version:       version,
 	}
 
-	err := app.server()
+	err := app.serve()
 	if err != nil {
 		app.errorLog.Println(err)
 		log.Fatal(err)
