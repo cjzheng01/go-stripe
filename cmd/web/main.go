@@ -8,6 +8,7 @@ import (
 	"net/http"
 	"os"
 	"time"
+	"github.com/joho/godotenv"
 )
 
 const version = "1.0.0"
@@ -56,6 +57,13 @@ func main() {
 
 	flag.Parse()
 
+	// load .env file
+	err := godotenv.Load(".env")
+
+	if err != nil {
+		log.Fatalf("Error loading .env file")
+	}
+
 	cfg.stripe.key = os.Getenv("STRIPE_KEY")
 	cfg.stripe.secret = os.Getenv("STRIPE_SECRET")
 
@@ -72,7 +80,7 @@ func main() {
 		version:       version,
 	}
 
-	err := app.serve()
+	err = app.serve()
 	if err != nil {
 		app.errorLog.Println(err)
 		log.Fatal(err)

@@ -1,3 +1,5 @@
+.gitignore
+
 # Binaries for programs and plugins
 *.exe
 *.exe~
@@ -17,3 +19,6 @@
 # auto-compile tool
 .air.toml
 tmp
+
+# environmet var
+.env
